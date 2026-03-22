@@ -43,8 +43,7 @@ foreach($md in $mdFiles){
 }
 
 # 4) Normalize/validate metadata
-.
-"$PSScriptRoot/validate_skill_metadata.ps1" -Folder $DestSkillsDir -Fix -Verbose:$VerboseOutput
+& "$PSScriptRoot/validate_skill_metadata.ps1" -Folder $DestSkillsDir -Fix -Verbose:$VerboseOutput
 
 # 5) Generate .skill packages
 $skillPackDir = Join-Path $DestSkillsDir "manus-skill-packages"
@@ -58,9 +57,8 @@ foreach($md in Get-ChildItem -Path $DestSkillsDir -Filter "*.md"){
     $tmp = Join-Path $env:TEMP "skill-pack-$($skillName)"
     Remove-Item -Recurse -Force $tmp -ErrorAction SilentlyContinue
     New-Item -ItemType Directory -Path $tmp | Out-Null
-    $skillRoot = Join-Path $tmp $skillName
-    New-Item -ItemType Directory -Path $skillRoot | Out-Null
-    Copy-Item -Path $md.FullName -Destination (Join-Path $skillRoot "SKILL.md") -Force
+    # Manus uploader expects SKILL.md at the archive root (not nested in a folder).
+    Copy-Item -Path $md.FullName -Destination (Join-Path $tmp "SKILL.md") -Force
 
     $outZip = Join-Path $skillPackDir ($skillName + ".skill")
     if(Test-Path $outZip){ Remove-Item $outZip -Force }

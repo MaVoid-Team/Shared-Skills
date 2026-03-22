@@ -25,9 +25,40 @@ Use this when you want to:
    - A **`Use for:` clause** in the description (helps Manus trigger correctly)
 4. **Package each skill** into a `.skill` file:
    - Each `.skill` is a ZIP archive.
-   - The archive MUST contain a root folder named after the skill.
-   - The root folder must include `SKILL.md`.
+   - The archive MUST contain `SKILL.md` at the archive root.
+   - Do **not** nest `SKILL.md` under a subfolder (Manus will reject it).
 5. **Verify the result** by inspecting the `.skill` archive structure and by checking metadata.
+
+---
+
+## Manus Compatibility Checklist (Required)
+
+Use this checklist every time before upload:
+
+1. `SKILL.md` begins with YAML frontmatter delimited by `---`.
+2. YAML includes at minimum:
+   - `name:`
+   - `description:`
+3. Description includes a `Use for:` clause.
+4. Save file as UTF-8 (avoid mojibake/garbled symbols).
+5. Package as `.skill` (zip format) with **root-level** `SKILL.md`.
+6. Open the archive and confirm entry is exactly `SKILL.md` (no parent folder path).
+7. If using folder-based naming conventions, align `name:` with destination folder naming rules.
+
+### Fast Validation Command (PowerShell)
+
+```powershell
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+[System.IO.Compression.ZipFile]::OpenRead("path/to/file.skill").Entries | Select-Object FullName,Length
+```
+
+Expected output for Manus upload should include:
+
+```text
+SKILL.md
+```
+
+If you see `SomeFolder/SKILL.md`, repack the archive.
 
 ---
 
@@ -40,7 +71,7 @@ A PowerShell script that:
 1. Clones a git repo (or updates it).
 2. Copies markdown skill files from the specified path.
 3. Normalizes YAML metadata.
-4. Generates `.skill` packages.
+4. Generates Manus-compatible `.skill` packages with `SKILL.md` at archive root.
 
 ### `scripts/validate_skill_metadata.ps1`
 
