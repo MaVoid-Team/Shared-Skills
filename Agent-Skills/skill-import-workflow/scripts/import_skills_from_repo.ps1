@@ -43,7 +43,7 @@ foreach($md in $mdFiles){
 }
 
 # 4) Normalize/validate metadata
-& "$PSScriptRoot/validate_skill_metadata.ps1" -Folder $DestSkillsDir -Fix -Verbose:$VerboseOutput
+& "$PSScriptRoot/validate_skill_metadata.ps1" -Folder $DestSkillsDir -Fix -FailOnError -Verbose:$VerboseOutput
 
 # 5) Generate .skill packages
 $skillPackDir = Join-Path $DestSkillsDir "manus-skill-packages"

@@ -1,6 +1,6 @@
-﻿---
+---
 name: skill-import-workflow
-description: Guidance for importing skills from an online repository and converting them into Manus-compatible .skill packages. Includes metadata validation and packaging steps. Use for: (add when to use this skill in your project).
+description: "Guidance for importing skills from an online repository and converting them into Manus-compatible .skill packages. Includes metadata validation and packaging steps. Use for: (add when to use this skill in your project)."
 ---
 
 # Skill Import Workflow
@@ -23,6 +23,7 @@ Use this when you want to:
    - `name:` (human-friendly skill name)
    - `description:` (what it does and when to use it)
    - A **`Use for:` clause** in the description (helps Manus trigger correctly)
+   - **Quoted `description` values** whenever they contain `:` characters (required for YAML safety)
 4. **Package each skill** into a `.skill` file:
    - Each `.skill` is a ZIP archive.
    - The archive MUST contain `SKILL.md` at the archive root.
@@ -40,10 +41,12 @@ Use this checklist every time before upload:
    - `name:`
    - `description:`
 3. Description includes a `Use for:` clause.
-4. Save file as UTF-8 (avoid mojibake/garbled symbols).
-5. Package as `.skill` (zip format) with **root-level** `SKILL.md`.
-6. Open the archive and confirm entry is exactly `SKILL.md` (no parent folder path).
-7. If using folder-based naming conventions, align `name:` with destination folder naming rules.
+4. If description text contains `:` (for example `Use for:`), wrap the full description value in quotes.
+5. Validate YAML parseability (not just regex presence) before packaging.
+6. Save file as UTF-8 (avoid mojibake/garbled symbols).
+7. Package as `.skill` (zip format) with **root-level** `SKILL.md`.
+8. Open the archive and confirm entry is exactly `SKILL.md` (no parent folder path).
+9. If using folder-based naming conventions, align `name:` with destination folder naming rules.
 
 ### Fast Validation Command (PowerShell)
 
@@ -75,9 +78,11 @@ A PowerShell script that:
 
 ### `scripts/validate_skill_metadata.ps1`
 
-Validates that every `SKILL.md` in a folder:
+Validates markdown skill files in a folder:
 - Has `name:` and `description:` in the YAML frontmatter.
 - Includes a `Use for:` clause in the description.
+- Parses as valid YAML frontmatter.
+- Auto-quotes unsafe `description` values containing colons when `-Fix` is used.
 
 ---
 
@@ -95,4 +100,5 @@ Validates that every `SKILL.md` in a folder:
 # 2) Validate metadata (optional / safe to run repeatedly)
 \scripts\validate_skill_metadata.ps1 -Folder "Agent-Skills/Marketing-Skills" -Fix -Verbose
 ```
+
 
