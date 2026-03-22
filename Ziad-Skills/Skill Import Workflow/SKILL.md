@@ -1,6 +1,6 @@
 ﻿---
 name: skill-import-workflow
-description: Guidance for importing skills from an online repository and converting them into Manus-compatible .skill packages. Includes metadata validation and packaging steps. Use for: (add when to use this skill in your project).
+description: "Guidance for importing skills from an online repository and converting them into Manus-compatible .skill packages. Includes metadata validation and packaging steps. Use for: importing and packaging third-party skills for Manus with valid SKILL.md frontmatter."
 ---
 
 # Skill Import Workflow
@@ -25,8 +25,8 @@ Use this when you want to:
    - A **`Use for:` clause** in the description (helps Manus trigger correctly)
 4. **Package each skill** into a `.skill` file:
    - Each `.skill` is a ZIP archive.
-   - The archive MUST contain a root folder named after the skill.
-   - The root folder must include `SKILL.md`.
+   - The archive MUST include `SKILL.md` at the archive root level.
+   - Support files (for example `scripts/`) can be included alongside it.
 5. **Verify the result** by inspecting the `.skill` archive structure and by checking metadata.
 
 ---
