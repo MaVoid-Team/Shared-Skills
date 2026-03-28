@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "name": "swarm-coordination",
+  "owner": "primeinc",
+  "repo": "swarm",
+  "path": "packages/claude-code-swarm-plugin/skills/swarm-coordination",
+  "branch": "primeinc/dev",
+  "sha": "38ca35cd3ff1b962baa7faeaf87191c7e48ca27b",
+  "source": "manual"
+}
